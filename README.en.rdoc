@@ -226,6 +226,8 @@ An example of +SubObject+ with a test class +MyC+, which
 3. has the method +plus1+, which returns its instance variable plus 1,
 4. has the method +dest!+
 
+**Code sample**:
+
   class MyC
     def initialize(a); @x = a; end
     def [](a, b); MyC.new(a+b); end

@@ -254,6 +254,8 @@ An example of `SubObject` with a test class `MyC`, which
 4.  has the method `dest!`
 
 
+**Code sample**:
+
     class MyC
       def initialize(a); @x = a; end
       def [](a, b); MyC.new(a+b); end
@@ -303,8 +305,7 @@ from the top directory as `ruby test/test_****.rb` or simply run `make test`.
 
 *   This class ignores any optional (keyword) parameters for the methods.  It
     is due to the fact Ruby
-    [BasicObject#method_missing](https://ruby-doc.org/core-2.6.5/BasicObject.h
-    tml#method-i-method_missing) does not take them into account as of
+    [BasicObject#method_missing](https://ruby-doc.org/core-2.6.5/BasicObject.html#method-i-method_missing) does not take them into account as of
     Ruby-2.6.5.  It may change in future versions of Ruby.
 
 
