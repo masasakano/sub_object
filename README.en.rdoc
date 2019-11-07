@@ -47,7 +47,7 @@ information it needs for the +source+ is basically +source.object_id+
 or equivalent, which is nothing in terms of memory use.
 In other words, this class does
 not create the copy of sub-Object from the original source object, as,
-for example, +String#[i,j]+ does.
+for example, +String#[ i, j ]+ does.
 
 As an example, the child class {SubString}[http://rubygems.org/gems/sub_string] (provided as a different Gem)
 works as:
@@ -97,7 +97,7 @@ perfectly possible; indeed it is defined as {SubObject::SubArray}.
 To be fair, I am afraid *SubArray* class does not have much practical
 value (apart from the demonstration of the concept!), because the only
 advantage of this class is to use the minimum memory, whereas the
-original sub-array as in +Array#[i,j]+ does not take much memory in
+original sub-array as in +Array#[ i, j ]+ does not take much memory in
 the first place, given Array is by definition just a container.
 
 By stark contrast, each sub-String in Ruby default takes up memory

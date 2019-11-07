@@ -18,6 +18,7 @@ clean:
 test:
 	rake test
 
+## yard2md_afterclean in Gem plain_text https://rubygems.org/gems/plain_text
 doc:
-	yard doc; [[ -x ".github" && ( "README.en.rdoc" -nt ".github/README.md" ) ]] && ( ruby -r rdoc -e 'puts RDoc::Markup::ToMarkdown.new.convert ARGF.read' < README.en.rdoc > .github/README.md ; echo ".github/README.md is updated." ) || exit 0
+	yard doc; [[ -x ".github" && ( "README.en.rdoc" -nt ".github/README.md" ) ]] && ( ruby -r rdoc -e 'puts RDoc::Markup::ToMarkdown.new.convert ARGF.read' < README.en.rdoc | yard2md_afterclean > .github/README.md ; echo ".github/README.md is updated." ) || exit 0
 
