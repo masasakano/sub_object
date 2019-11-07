@@ -5,7 +5,7 @@ require 'date'
 
 Gem::Specification.new do |s|
   s.name = 'sub_object'.sub(/.*/){|c| (c == File.basename(Dir.pwd)) ? c : raise("ERROR: s.name=(#{c}) in gemspec seems wrong!")}
-  s.version = "1.0.1".sub(/.*/){|c| fs = Dir.glob('changelog{,.*}', File::FNM_CASEFOLD); raise('More than one ChangeLog exist!') if fs.size > 1; warn("WARNING: Version(s.version=#{c}) already exists in #{fs[0]} - ok?") if fs.size == 1 && !IO.readlines(fs[0]).grep(/^\(Version: #{Regexp.quote c}\)$/).empty? ; c }  # n.b., In macOS, changelog and ChangeLog are identical in default.
+  s.version = "1.0.2".sub(/.*/){|c| fs = Dir.glob('changelog{,.*}', File::FNM_CASEFOLD); raise('More than one ChangeLog exist!') if fs.size > 1; warn("WARNING: Version(s.version=#{c}) already exists in #{fs[0]} - ok?") if fs.size == 1 && !IO.readlines(fs[0]).grep(/^\(Version: #{Regexp.quote c}\)$/).empty? ; c }  # n.b., In macOS, changelog and ChangeLog are identical in default.
   # s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   # s.bindir = 'bin'
   # %w(sub_object).each do |f|
@@ -49,10 +49,9 @@ Gem::Specification.new do |s|
 
   ## cf. https://guides.rubygems.org/specification-reference/#metadata
   s.metadata["yard.run"] = "yri" # use "yard" to build full HTML docs.
-  s.metadata["changelog_uri"]     = "https://github.com/masasakano/#{s.name}/blob/master/ChangeLog"
+  # s.metadata["changelog_uri"]     = "https://github.com/masasakano/#{s.name}/blob/master/ChangeLog"
   # s.metadata["source_code_uri"]   = "https://github.com/masasakano/sub_object"
   # s.metadata["documentation_uri"] = "https://www.example.info/gems/bestgemever/0.0.1"
-end
 
 end
 

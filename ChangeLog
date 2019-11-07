@@ -1,0 +1,19 @@
+-----
+(Version: 1.0.2)
+2019-11-07  Masa Sakano
+  * Added ChangeLog to the package (which I had forgotten to add).
+
+-----
+(Version: 1.0.1)
+2019-11-07  Masa Sakano
+  * Minor update in documentation.
+
+-----
+2019-11-05  Masa Sakano
+  * Correct .github/README.md as auto-conversion from rdoc to md badly failed for the sample code.
+
+-----
+(Version: 1.0)
+2019-11-05  Masa Sakano
+
+ * Initial but pretty much complete commit (Ver.1.0).
