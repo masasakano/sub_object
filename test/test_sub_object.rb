@@ -101,6 +101,7 @@ class TestUnitSubObject < MiniTest::Test
     assert_equal MyC.new(myo.x+2+3), obj.to_source
     assert_equal "SubObject", obj.class.name
     assert_equal "6", obj.to_s
+    assert_nil   obj.attr
     assert            myo.respond_to?(:to_s)
     assert            obj.respond_to?(:to_s)
     assert            myo.respond_to?(:plus1)
@@ -173,6 +174,16 @@ class TestUnitSubObject < MiniTest::Test
       }
     }
     exclu.join
+
+    # Tests of attr
+    myo = MyC.new(1)
+    obj = SubObject.new myo, 2, 3, attr: 5
+    assert_equal  5, obj.attr
+    hs = Hash[{ try: 67 }]
+    obj.attr = hs
+    assert_equal hs, obj.attr
+    obj.attr[:try] = 89
+    assert_equal 89, obj.attr[:try]
   end
 
   def test_sub_array01
@@ -184,6 +195,7 @@ class TestUnitSubObject < MiniTest::Test
     assert_equal   2,           obj.subsize
     assert_equal [-3, 2],       obj.pos_size
     assert_equal ary[-3, 2],    obj.to_source
+    assert_nil   obj.attr
     assert_equal :to_ary, SubObject::SubArray::TO_SOURCE_METHOD
     assert_equal :itself, SubObject::TO_SOURCE_METHOD
     assert_raises(TypeError){ SubObject::SubArray.new ary, -3, :a }
@@ -205,6 +217,16 @@ class TestUnitSubObject < MiniTest::Test
     refute            obj.respond_to?(:naiyo)
     assert_raises(NoMethodError){ obj.push 5 }
     assert_raises(NoMethodError){ obj.keep_if{} }
+
+    # Tests of attr
+    ary = [?a, ?b]
+    obj = SubObject::SubArray.new ary, -2, 1, attr: 5
+    assert_equal  5, obj.attr
+    hs = Hash[{ try: 67 }]
+    obj.attr = hs
+    assert_equal hs, obj.attr
+    obj.attr[:try] = 89
+    assert_equal 89, obj.attr[:try]
   end
 
 end # class TestUnitSubObject < MiniTest::Test

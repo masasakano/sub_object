@@ -3,12 +3,15 @@
 
 ## Summary
 
-This class [SubObject} is the parent class for {SubString](http://rubygems.org/gems/sub_string) and alike. This class
-expresses Ruby sub-Object (like Sub-String), which are obtained with the
-`self[i, j]` method, but taking up negligible memory space, as its instance
+This class [SubObject](http://rubygems.org/gems/sub_object) is the parent
+class for [SubString](http://rubygems.org/gems/sub_string) and alike. This
+class expresses Ruby sub-Object (like Sub-String), which are obtained with the
+`self[ i, j ]` method, but taking up negligible memory space, as its instance
 internally holds the (likely positional, though arbitrary) information `(i, j)` only.  This class provides the base interface so the instance behaves
 exactly like the original class (String for SubString, for example) as
-duck-typing, except destructive modification, which is prohibited.
+duck-typing, except destructive modification, which is prohibited.  Also, as a
+bonus, an arbitrary object can be associated with instances of this class with
+{SubObject#attr}.
 
 If the original object (which an instance of this class refers to) is ever
 destructively modified in a way it changes its hash value, warning will be
@@ -28,7 +31,7 @@ TO_SOURCE_METHOD = :to_str
 alias_method TO_SOURCE_METHOD, :to_source
 ```
 
-## Cencept
+## Concept
 
 This class takes three parameters in the initialization: **source**, **pos**
 (position), and **size**.  **source** is the original object, and basically
@@ -79,11 +82,11 @@ sense to apply a destructive change on the instance of this class. Therefore,
 whenever a destructive method is applied, this class tries to raise
 NoMethodError exception.  The routine to identify the destructive method
 relies thoroughly on the method name. The methods ending with "!" are regarded
-as destructive. Other standard distructive method names are defined in the
+as destructive. Other standard destructive method names are defined in the
 constant {SubObject::DESTRUCTIVE_METHODS}. Each child class may add entries or
 modify it.
 
-Note that if a (likely user-defined) desturctive method passes the check, the
+Note that if a (likely user-defined) destructive method passes the check, the
 result is most likely to be different from intended.  It certainly never
 alters this instance destructively (unless `[]` method of the source object
 returns self, which is against the Ruby convention), and the returned value
@@ -110,7 +113,7 @@ sub = src[1..-1]
 
 The variable `sub` uses up about the same memory of `src`. If a great number
 of `sub` is created and held alive, the total memory used by the process can
-become quicly multifold, even by orders of magnitude.
+become quickly multifold, even by orders of magnitude.
 
 This is where this class comes in handy.  For example, a parsing program
 applied to a huge text document with a complex grammar may hold a number of
@@ -118,9 +121,13 @@ such String variables.  By using this class instead of String, it can save
 some valuable memory.
 
 That is precisely why [SubString](http://rubygems.org/gems/sub_string), which
-is a child class of this class and for String, is registered as an official
-Gem. (In practice, this class is a generalised version of **SubString**, which
-Ruby allows as a flexible programming language!)
+is a child class of this class and for String, is registered as a separate
+official Gem. (In practice, this class is a generalised version of
+**SubString**, which Ruby allows, being a flexible programming language!)
+
+Note this class also offers a function to associate an arbitrary object with
+it with the setter and getter methods of {SubObject#attr=} and
+{SubObject#attr}.
 
 ## Description
 
@@ -129,12 +136,17 @@ Ruby allows as a flexible programming language!)
 Initialize as follows:
 
 ```ruby
-SubObject.new( source, index1, index2 )
+SubObject.new( source, index1, index2, attr: your_object )
 ```
 
 Usually, `index1` is the starting index and `index2` is the size, though how
 they should be recognized depends on the definition of the method `[i,j]` of
 `source`.
+
+`attr` option is optional and to set an arbitrary object as an instance
+variable.  The default value is nil. It can be reset any time later with the
+setter method of {SubObject#attr=}. To store an arbitrary number of pieces of
+information, a Hash instance would be convenient.
 
 ### Constant
 
@@ -153,21 +165,21 @@ they should be recognized depends on the definition of the method `[i,j]` of
 The class variable `TO_SOURCE_METHOD` is meant to be set by each child class
 (and child classes only).  For example, if it is the subclass for String, it
 should be `:to_str`.  Specifically, the registered method must respond to
-`[source](i,j)`. Nott that in this class (parent class), it is **left unset**,
+`[source](i,j)`. Note that in this class (parent class), it is **left unset**,
 but the (private) method of the same name `to_original_method` returns
 `:itself` instead.
 
 **WARNING**: Do not set this class variable in this class, as it could result
-in unexpected behaviours if a child class and the parent class are used
+in unexpected behaviours if a child class and this class (parent) are used
 simultaneously.
 
 ### Class-global settings and class methods
 
 When this class is accessed after any alteration of the original source object
-has been detected, it may issue warning (as the insntace does not make sense
+has been detected, it may issue warning (as the instance does not make sense
 any more). The warning is suppressed when the Ruby global variable `$VERBOSE`
 is nil (it is false in Ruby default).  Or, if the following setting is made
-(internaly, it sets/reads a class instance variable) and set non-nil, its
+(internally, it sets/reads a class instance variable) and set non-nil, its
 value precedes `$VERBOSE`:
 
 ```ruby
@@ -177,7 +189,7 @@ SubObject.verbose=true  # => setter
 
 where SubObject should be replaced with the name of your child class that
 inherits {SubObject}. If this value is true or false, such a warning is issued
-or suppresed, respectively, regardless of the value of the global variable
+or suppressed, respectively, regardless of the value of the global variable
 `$VERBOSE`.
 
 ### Instance methods
@@ -200,7 +212,11 @@ The following is the instance methods of {SubObject} unique to this class.
 <dd>   Returns the two-component array of &lt;tt&gt;[pos, subsize]&lt;/tt&gt;</dd>
 <dt>#to_source()</dt>
 <dd>   Returns the instance as close as the original &lt;tt&gt;source&lt;/tt&gt; (the class of it,
-    etc)</dd>
+    etc).</dd>
+<dt>#attr=()</dt>
+<dd>   Setter of the user-defined instance variable.</dd>
+<dt>#attr()</dt>
+<dd>   Getter of the user-defined instance variable.  The default is nil</dd>
 </dl>
 
 
@@ -234,7 +250,7 @@ specific to this class, is processed in the following order:
 
 1.  [#method_missing](SubObject#method_missing) (almost any methods except
     those defined in Object should be processed here)
-    1.  `super` if destuctive (usually NoMethodError, because Object class
+    1.  `super` if destructive (usually NoMethodError, because Object class
         does not have "destructive" methods, though you may argue `taint` etc
         is "destructive")
     2.  Else, `send` to [#to_source](SubObject#to_source)
@@ -311,6 +327,11 @@ download it and put the library file in one of your Ruby library search paths.
 
 The master of this README file is found in
 [RubyGems/sub_object](https://rubygems.org/gems/sub_object)
+
+The source code is maintained also in
+[Github](https://github.com/masasakano/sub_object) with no intuitive interface
+for annotation but with easily-browsable
+[ChangeLog](https://github.com/masasakano/sub_object/blob/master/ChangeLog)
 
 ### Tests
 

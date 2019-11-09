@@ -81,16 +81,17 @@ class SubObject
   # Starting (character) position
   attr_reader :pos
 
-  # Size of SubObject.  Identical with #size
-  # attr_reader :isize
+  # Setter/Getter of the attribute. nil in default.
+  attr_accessor :attr
 
   # Returns a new instance of SubObject equivalent to source[ pos, size ]
   #
   # @param source [String]
   # @param pos [Integer]
   # @param size [Integer]
-  def initialize(source, pos, size)
+  def initialize(source, pos, size, attr: nil)
     @source, @pos, @isize = source, pos, size
+    @attr = attr
 
     # Sanity check
     begin
