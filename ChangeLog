@@ -1,4 +1,9 @@
 -----
+(Version: 1.1.1)
+2019-11-12  Masa Sakano
+  * Added development-dependency on plain_text (which I forgot before)
+
+-----
 (Version: 1.1)
 2019-11-09  Masa Sakano
   * Added attr getter/setter and initializer.

@@ -56,7 +56,7 @@ works as:
 
 ```ruby
 src = "abcdef"
-ss = SubString.new(src, -4, 3)  # => Similar to "abcdef"[-4,3]
+ss = SubString.new(src, -4, 3, attr: (5..6))  # => Similar to "abcdef"[-4,3]
 print ss     # => "cde" (STDOUT)
 ss+'3p'      # => "cde3p"
 ss.upcase    # => "CDE"
@@ -64,6 +64,7 @@ ss.sub(/^./, 'Q') # => "Qde"
 ss.is_a?(String)  # => true
 "xy_"+ss     # => "xy_cde"
 "cde" == ss  # => true
+ss.attr      # => (5..6)  # user-specified instance-specific additional information
 ```
 
 Internally the instance holds the source object.  Therefore, as long as the
@@ -335,13 +336,14 @@ for annotation but with easily-browsable
 
 ### Tests
 
-Ruby codes under the directory `test/` are the test scripts. You can run them
-from the top directory as `ruby test/test_****.rb` or simply run `make test`.
+The Ruby codes under the directory `test/` are the test scripts. You can run
+them from the top directory as `ruby test/test_****.rb` or simply run `make
+test`.
 
 ## Known bugs and Todo items
 
-*   This class ignores any optional (keyword) parameters for the methods.  It
-    is due to the fact Ruby
+*   This class ignores any optional (keyword) parameters for the methods of
+    the original class.  It is due to the fact Ruby
     [BasicObject#method_missing](https://ruby-doc.org/core-2.6.5/BasicObject.html#method-i-method_missing) does not take them into account as of
     Ruby-2.6.5.  It may change in future versions of Ruby.
 

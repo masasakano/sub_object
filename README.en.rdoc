@@ -54,7 +54,7 @@ As an example, the child class {SubString}[http://rubygems.org/gems/sub_string] 
 works as:
 
   src = "abcdef"
-  ss = SubString.new(src, -4, 3)  # => Similar to "abcdef"[-4,3]
+  ss = SubString.new(src, -4, 3, attr: (5..6))  # => Similar to "abcdef"[-4,3]
   print ss     # => "cde" (STDOUT)
   ss+'3p'      # => "cde3p"
   ss.upcase    # => "CDE"
@@ -62,6 +62,7 @@ works as:
   ss.is_a?(String)  # => true
   "xy_"+ss     # => "xy_cde"
   "cde" == ss  # => true
+  ss.attr      # => (5..6)  # user-specified instance-specific additional information
 
 Internally the instance holds the source object.  Therefore, as long
 as the instance is alive, the source object is never garbage-collected (GC).
@@ -287,14 +288,14 @@ interface for annotation but with easily-browsable {ChangeLog}[https://github.co
 
 === Tests
 
-Ruby codes under the directory <tt>test/</tt> are the test scripts.
+The Ruby codes under the directory <tt>test/</tt> are the test scripts.
 You can run them from the top directory as <tt>ruby test/test_****.rb</tt>
 or simply run <tt>make test</tt>.
 
 
 == Known bugs and Todo items
 
-* This class ignores any optional (keyword) parameters for the methods.  It is due to the fact Ruby {BasicObject#method_missing}[https://ruby-doc.org/core-2.6.5/BasicObject.html#method-i-method_missing] does not take them into account as of Ruby-2.6.5.  It may change in future versions of Ruby.
+* This class ignores any optional (keyword) parameters for the methods of the original class.  It is due to the fact Ruby {BasicObject#method_missing}[https://ruby-doc.org/core-2.6.5/BasicObject.html#method-i-method_missing] does not take them into account as of Ruby-2.6.5.  It may change in future versions of Ruby.
 
 
 == Copyright

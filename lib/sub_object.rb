@@ -86,9 +86,10 @@ class SubObject
 
   # Returns a new instance of SubObject equivalent to source[ pos, size ]
   #
-  # @param source [String]
-  # @param pos [Integer]
-  # @param size [Integer]
+  # @param source [Object] source Object
+  # @param pos [Integer, Object] The first index for the method +#[]+, usually the starting index position.
+  # @param size [Integer, Object] The second index for the method +#[]+, usually the size.
+  # @param attr: [Object] user-specified arbitrary object
   def initialize(source, pos, size, attr: nil)
     @source, @pos, @isize = source, pos, size
     @attr = attr
